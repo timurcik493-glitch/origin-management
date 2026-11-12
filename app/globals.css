@@ -1,0 +1,2836 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Фон */
+  --bg:        #0a0a0a;
+  --bg-2:      #0f0f0f;
+  --bg-3:      #141414;
+  --card:      #131313;
+  --card-2:    #171717;
+
+  /* Текст */
+  --ink:       #f5f5f5;
+  --ink-2:     #a3a3a3;
+  --ink-3:     #6b6b6b;
+  --ink-4:     #404040;
+
+  /* Линии */
+  --line:      #232323;
+  --line-2:    #2f2f2f;
+
+  /* Акцент — тёплый коралл */
+  --accent:    #e8a78d;
+  --accent-2:  #f0b9a3;
+  --accent-3:  #d99578;
+  --accent-bg: rgba(232, 167, 141, 0.08);
+
+  /* Статусы */
+  --green:     #10b981;
+  --red:       #ef4444;
+  --amber:     #f59e0b;
+  --blue:      #3b82f6;
+  --violet:    #8b5cf6;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ═══════ REVEAL ═══════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════ ССЫЛКИ ═══════ */
+.link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.link:hover { color: var(--accent-2); }
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: gap 0.2s;
+}
+.link-arrow:hover { gap: 0.7rem; }
+.link-arrow::after { content: '→'; }
+
+/* ═══════ КНОПКИ ═══════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+  transition: all 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--line-2);
+  color: var(--ink);
+}
+.btn-secondary:hover {
+  background: var(--bg-3);
+  border-color: var(--line-2);
+}
+
+/* ═══════ КАРТОЧКИ ═══════ */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.card:hover {
+  border-color: var(--line-2);
+  background: var(--card-2);
+}
+
+.card-accent {
+  background: var(--accent-bg);
+  border-color: rgba(232, 167, 141, 0.2);
+}
+
+/* ═══════ STAT CARD (как на референсе) ═══════ */
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--line-2); }
+.stat-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.stat-card-title {
+  font-size: 0.85rem;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.stat-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+}
+.stat-card-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.stat-card-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.stat-card-trend.up { color: var(--green); }
+.stat-card-trend.down { color: var(--red); }
+.stat-card-trend-sub {
+  color: var(--ink-3);
+  font-weight: 400;
+  margin-left: 0.25rem;
+}
+
+/* ═══════ ТАБЛИЦА ═══════ */
+.table-wrap {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card);
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.table th {
+  background: var(--bg-3);
+  padding: 0.85rem 1.2rem;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+}
+.table td {
+  padding: 0.95rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover { background: var(--bg-3); }
+.table td:first-child { color: var(--ink); font-weight: 500; }
+
+/* ═══════ БЕЙДЖИ ═══════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid rgba(232, 167, 141, 0.2);
+}
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ═══════ ПРОГРЕСС (чтения) ═══════ */
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  z-index: 100;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+/* ═══════ БАР-ТРЕК ═══════ */
+.bar-track {
+  height: 6px;
+  background: var(--bg-3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* ═══════ БОКОВАЯ НАВИГАЦИЯ ═══════ */
+.sidebar {
+  width: 260px;
+  background: var(--bg-2);
+  border-right: 1px solid var(--line);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  z-index: 40;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 3px; }
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+.sidebar-group {
+  padding: 1.1rem 0.75rem 0.5rem;
+}
+.sidebar-group-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  padding: 0 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s;
+  text-decoration: none;
+  position: relative;
+}
+.sidebar-item:hover {
+  background: var(--bg-3);
+  color: var(--ink);
+}
+.sidebar-item.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+.sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ═══════ ОСНОВНОЙ КОНТЕНТ ═══════ */
+.main-with-sidebar {
+  margin-left: 260px;
+  min-height: 100vh;
+}
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .main-with-sidebar { margin-left: 0; }
+}
+
+/* ═══════ MOBILE MENU BTN ═══════ */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 60;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 1024px) {
+  .mobile-menu-btn { display: flex; }
+}
+
+/* ═══════ ГРАФИКИ ═══════ */
+@keyframes drawPath {
+  from { stroke-dashoffset: 3000; }
+  to   { stroke-dashoffset: 0; }
+}
+.chart-line {
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  animation: drawPath 2.2s ease-out forwards;
+}
+
+@keyframes fillArea {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.chart-area {
+  animation: fillArea 1.6s ease 0.4s forwards;
+  opacity: 0;
+}
+
+@keyframes growBar {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+.chart-bar {
+  transform-origin: bottom;
+  animation: growBar 1s ease-out forwards;
+  transform: scaleY(0);
+}
+
+/* ═══════ PROSE (текст теории) ═══════ */
+.prose {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+.prose p { margin-bottom: 1.1rem; }
+.prose h2 {
+  font-size: 1.6rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 1.8rem;
+  margin-bottom: 0.7rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose ul, .prose ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+.prose li {
+  margin-bottom: 0.5rem;
+}
+.prose li::marker { color: var(--accent); }
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose em { color: var(--accent); font-style: italic; }
+.prose code {
+  background: var(--bg-3);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+}
+.prose blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--ink);
+  font-style: italic;
+}
+
+/* ═══════ ACCORDION ═══════ */
+.accordion-item {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.accordion-item:hover { border-color: var(--line-2); }
+.accordion-head {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--ink);
+  transition: background 0.2s;
+}
+.accordion-head:hover { background: var(--bg-3); }
+.accordion-head::after {
+  content: '+';
+  font-size: 1.3rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+.accordion-item.open .accordion-head::after {
+  transform: rotate(45deg);
+}
+.accordion-body {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════ ГЛОССАРИЙ ═══════ */
+.glossary-item {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.2s;
+}
+.glossary-item:last-child { border-bottom: 0; }
+.glossary-item:hover { background: var(--bg-3); }
+.glossary-term {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+.glossary-def {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ═══════ ТАЙМЛАЙН ═══════ */
+.timeline-item {
+  position: relative;
+  padding-left: 2.5rem;
+  padding-bottom: 2rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  top: 1.6rem;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-2);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+}
+.timeline-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.timeline-title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+/* ═══════ ЗАГРУЗКА ═══════ */
+@keyframes letterIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes loadFadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  animation: loadFadeOut 0.6s ease 2.2s forwards;
+}
+.loading-letter {
+  display: inline-block;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  animation: letterIn 0.5s ease forwards;
+  opacity: 0;
+}
+.loading-letter:nth-child(1) { animation-delay: 0.1s; }
+.loading-letter:nth-child(2) { animation-delay: 0.25s; }
+.loading-letter:nth-child(3) { animation-delay: 0.4s; }
+.loading-letter:nth-child(4) { animation-delay: 0.55s; }
+.loading-letter:nth-child(5) { animation-delay: 0.7s; }
+.loading-letter:nth-child(6) { animation-delay: 0.85s; }
+.loading-line {
+  height: 1px;
+  width: 200px;
+  background: var(--accent);
+  transform-origin: center;
+  animation: lineGrow 1.2s ease 1s forwards;
+  transform: scaleX(0);
+}
+.loading-sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  opacity: 0;
+  animation: letterIn 0.5s ease 1.4s forwards;
+}
+
+/* ═══════ MISC ═══════ */
+.mono { font-family: 'JetBrains Mono', monospace; }
+.text-accent { color: var(--accent); }
+.text-muted { color: var(--ink-3); }
+/* ═══════════ ПИРАМИДА УРОВНЕЙ ═══════════ */
+.pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 1.5rem 0;
+}
+.pyramid-level {
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line-2);
+  background: var(--card);
+  transition: all 0.3s ease;
+  cursor: default;
+  text-align: center;
+}
+.pyramid-level:hover {
+  border-color: var(--accent);
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px -8px rgba(232,167,141,0.25);
+}
+.pyramid-level-title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+.pyramid-level-sub {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+/* ═══════════ ЦИКЛ ФУНКЦИЙ ═══════════ */
+.cycle-node {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.19,1,0.22,1);
+  position: relative;
+}
+.cycle-node:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  transform: translateY(-2px);
+}
+.cycle-node.active {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  box-shadow: 0 8px 32px -12px rgba(232,167,141,0.4);
+}
+.cycle-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+.cycle-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.cycle-desc {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* SVG связь цикла */
+.cycle-svg {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ═══════════ ОРГ-СХЕМЫ ═══════════ */
+.org-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.org-node {
+  fill: var(--card);
+  stroke: var(--line-2);
+  stroke-width: 1.5;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.org-node:hover {
+  fill: var(--accent-bg);
+  stroke: var(--accent);
+}
+.org-node.top {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+.org-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--ink);
+  pointer-events: none;
+}
+.org-label.top {
+  fill: var(--bg);
+  font-weight: 600;
+}
+.org-line {
+  stroke: var(--line-2);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* ═══════════ PROS / CONS ═══════════ */
+.pc-block {
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+.pc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.pc-head.plus { color: var(--green); }
+.pc-head.minus { color: var(--red); }
+.pc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pc-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  margin-bottom: 0.5rem;
+  line-height: 1.55;
+}
+.pc-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.pc-block.plus .pc-list li::before { background: var(--green); }
+.pc-block.minus .pc-list li::before { background: var(--red); }
+
+/* ═══════════ ТАЙМЛАЙН-ГОРИЗОНТ (для истории) ═══════════ */
+.timeline-h {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1.5rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+.timeline-h::-webkit-scrollbar { height: 6px; }
+.timeline-h::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 3px; }
+
+.timeline-h-item {
+  min-width: 240px;
+  padding: 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: default;
+}
+.timeline-h-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.timeline-h-item::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 2px;
+}
+.timeline-h-item:hover::before { opacity: 1; }
+.timeline-h-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.timeline-h-name {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+.timeline-h-desc {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  line-height: 1.55;
+}
+
+/* ═══════════ СРАВНИТЕЛЬНАЯ МИНИ-КАРТОЧКА ═══════════ */
+.mini-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  transition: all 0.25s ease;
+}
+.mini-card:hover {
+  border-color: var(--line-2);
+  background: var(--card-2);
+}
+.mini-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.mini-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.mini-card-desc {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  line-height: 1.55;
+}
+
+/* ═══════════ ТЕОРЕТИК КАРТОЧКА ═══════════ */
+.theorist {
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  transition: all 0.25s ease;
+}
+.theorist:hover {
+  border-color: var(--line-2);
+}
+.theorist-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.theorist-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+.theorist-role {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  margin-bottom: 0.75rem;
+}
+.theorist-idea {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+/* ═══════════ СТИЛИ ЛИДЕРСТВА ═══════════ */
+.style-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.5rem;
+  background: var(--card);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.style-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.style-card:hover::before { transform: scaleX(1); }
+.style-card:hover {
+  border-color: var(--line-2);
+  transform: translateY(-3px);
+}
+.style-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.style-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.style-card-sub {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.style-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.style-metric {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.style-metric-label {
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  min-width: 82px;
+}
+.style-metric-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.style-metric-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+.style-metric-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  min-width: 28px;
+  text-align: right;
+}
+.style-pros-cons {
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+  font-size: 0.82rem;
+}
+.style-pros-cons .row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  color: var(--ink-2);
+}
+.style-pros-cons .plus { color: var(--green); font-weight: 600; }
+.style-pros-cons .minus { color: var(--red); font-weight: 600; }
+
+/* ═══════════ ВОРОНКА ═══════════ */
+.funnel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.funnel-step {
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  color: var(--ink);
+  transition: all 0.3s ease;
+  cursor: default;
+  border: 1px solid var(--line-2);
+  background: var(--card);
+}
+.funnel-step:hover {
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+.funnel-step-label {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.funnel-step-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+}
+.funnel-step-name {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ═══════════ СЕТКА ТОМАСА-КИЛМАННА ═══════════ */
+.tk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-2);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+.tk-cell {
+  background: var(--card);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+.tk-cell:hover {
+  background: var(--card-2);
+}
+.tk-cell.active {
+  background: var(--accent-bg);
+}
+.tk-cell.optimal {
+  background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, var(--card) 100%);
+}
+.tk-cell.optimal:hover {
+  background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, var(--card-2) 100%);
+}
+.tk-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ink-4);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.tk-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.tk-desc {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.tk-best {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.68rem;
+  color: var(--green);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.tk-axis {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════ КОММУНИКАЦИИ ═══════════ */
+.comm-node {
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--line-2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  transition: all 0.25s ease;
+  cursor: default;
+}
+.comm-node:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+/* ═══════════ МОТИВАЦИЯ — ТЕОРИЯ КАРТОЧКА ═══════════ */
+.theory-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.5rem;
+  background: var(--card);
+  transition: all 0.3s ease;
+}
+.theory-card:hover {
+  border-color: var(--line-2);
+  background: var(--card-2);
+}
+.theory-card-author {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.theory-card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.theory-card-year {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  margin-bottom: 0.85rem;
+}
+.theory-card-idea {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ═══════════ ПИРАМИДА МАСЛОУ ═══════════ */
+.maslow-level {
+  margin: 0 auto;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 4px;
+  text-align: center;
+  border: 1px solid var(--line-2);
+  background: var(--card);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.maslow-level:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  transform: scale(1.02);
+}
+.maslow-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.15rem;
+}
+.maslow-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.maslow-sub {
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  margin-top: 0.15rem;
+}
+/* ═══════════ SWOT MATRIX ═══════════ */
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  background: var(--line-2);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.swot-cell {
+  background: var(--card);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: default;
+  position: relative;
+  min-height: 180px;
+}
+.swot-cell:hover {
+  background: var(--card-2);
+}
+.swot-cell.s { border-top: 2px solid var(--green); }
+.swot-cell.w { border-top: 2px solid var(--red); }
+.swot-cell.o { border-top: 2px solid var(--accent); }
+.swot-cell.t { border-top: 2px solid var(--amber); }
+.swot-letter {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.15;
+  font-family: 'JetBrains Mono', monospace;
+}
+.swot-cell.s .swot-letter { color: var(--green); opacity: 0.3; }
+.swot-cell.w .swot-letter { color: var(--red); opacity: 0.3; }
+.swot-cell.o .swot-letter { color: var(--accent); opacity: 0.3; }
+.swot-cell.t .swot-letter { color: var(--amber); opacity: 0.3; }
+.swot-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.swot-cell.s .swot-title { color: var(--green); }
+.swot-cell.w .swot-title { color: var(--red); }
+.swot-cell.o .swot-title { color: var(--accent); }
+.swot-cell.t .swot-title { color: var(--amber); }
+.swot-sub {
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.85rem;
+}
+.swot-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.swot-list li {
+  font-size: 0.85rem;
+  color: var(--ink-2);
+  line-height: 1.5;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.swot-list li:last-child { border-bottom: 0; }
+
+/* ═══════════ GANTT ═══════════ */
+.gantt {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow-x: auto;
+}
+.gantt-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-width: 560px;
+}
+.gantt-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gantt-track {
+  position: relative;
+  height: 28px;
+  background: var(--bg-3);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.gantt-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #0a0a0a;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+.gantt-bar:hover {
+  filter: brightness(1.15);
+  transform: scaleY(1.1);
+}
+.gantt-head {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0.5rem;
+  min-width: 560px;
+}
+.gantt-head-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.gantt-months {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--ink-3);
+}
+
+/* ═══════════ DASHBOARD METRIC ═══════════ */
+.metric-box {
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  transition: border-color 0.25s;
+}
+.metric-box:hover { border-color: var(--line-2); }
+.metric-box-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.metric-box-title {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.metric-box-val {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+.metric-box-sub {
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
+}
+.metric-up { color: var(--green); }
+.metric-down { color: var(--red); }
+
+/* Прогресс к цели */
+.goal-bar {
+  height: 8px;
+  background: var(--bg-3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+.goal-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-3) 0%, var(--accent) 100%);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* ═══════════ QUIZ ═══════════ */
+.quiz-card {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.quiz-q {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.quiz-option {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg-3);
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.quiz-option:hover:not(.disabled) {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  color: var(--ink);
+}
+.quiz-option.correct {
+  border-color: var(--green);
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--green);
+}
+.quiz-option.wrong {
+  border-color: var(--red);
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--red);
+}
+.quiz-option.disabled { cursor: default; }
+.quiz-option-letter {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.quiz-explain {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-3);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+/* ═══════════ SEARCH ═══════════ */
+.search-box {
+  position: relative;
+  width: 100%;
+}
+.search-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem 0.7rem 2.4rem;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 0.85rem;
+  transition: border-color 0.2s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 0.4rem;
+  z-index: 100;
+  box-shadow: 0 12px 40px -8px rgba(0,0,0,0.6);
+}
+.search-item {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  color: var(--ink-2);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+.search-item:hover {
+  background: var(--bg-3);
+  color: var(--ink);
+}
+.search-item-type {
+  font-size: 0.65rem;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-left: 0.5rem;
+}
+
+/* ═══════════ GLOSSARY ALPHABET ═══════════ */
+.alphabet-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1rem;
+}
+.alphabet-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.alphabet-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.alphabet-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.alphabet-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+/* ═══════════════════════════════════════════════════════
+   ЖИВЫЕ ГРАФИКИ И ТАБЛИЦЫ (аккуратные анимации)
+   ═══════════════════════════════════════════════════════ */
+
+/* Точки на графике реагируют на hover */
+.chart-point {
+  transition: r 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+.chart-point:hover {
+  filter: drop-shadow(0 0 6px rgba(232, 167, 141, 0.6));
+}
+
+.chart-tooltip {
+  position: absolute;
+  background: #0f0f0f;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  transform: translate(-50%, -120%);
+  box-shadow: 0 4px 16px -4px rgba(0,0,0,0.6);
+  transition: opacity 0.15s ease;
+}
+
+/* Столбцы плавно реагируют */
+.chart-bar {
+  transition: fill 0.25s ease, filter 0.25s ease;
+  cursor: pointer;
+}
+.chart-bar:hover {
+  filter: brightness(1.3) drop-shadow(0 0 8px rgba(232, 167, 141, 0.4));
+}
+
+/* Donut-сегменты */
+.donut-segment {
+  transition: stroke-width 0.25s ease, filter 0.25s ease;
+  cursor: pointer;
+}
+.donut-segment:hover {
+  filter: drop-shadow(0 0 8px rgba(232, 167, 141, 0.5));
+}
+
+/* Строки таблиц — плавное появление */
+.table tbody tr {
+  opacity: 0;
+  animation: rowFadeIn 0.5s ease forwards;
+}
+@keyframes rowFadeIn {
+  to { opacity: 1; }
+}
+.table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.10s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.20s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.table tbody tr:nth-child(6) { animation-delay: 0.30s; }
+.table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+.table tbody tr:nth-child(8) { animation-delay: 0.40s; }
+
+/* Hover строки — мягкая подсветка + тонкая левая полоска */
+.table tbody tr {
+  position: relative;
+  transition: background 0.25s ease;
+}
+.table tbody tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+.table tbody tr:hover::before {
+  transform: scaleY(1);
+}
+
+/* Карточки со статистикой — мягкое свечение при hover */
+.stat-card:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 0 0 1px rgba(232,167,141,0.15), 0 8px 32px -16px rgba(232,167,141,0.25);
+}
+
+/* Прогресс-бары — плавное появление при загрузке */
+@keyframes barGrow {
+  from { width: 0; }
+}
+.bar-fill {
+  animation: barGrow 1.2s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+
+/* Number — мягкое усиление при hover */
+.stat-card:hover .stat-card-value {
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+/* ═══════════════════════════════════════════════════════
+   ЖИВЫЕ ГРАФИКИ — постоянные анимации
+   ═══════════════════════════════════════════════════════ */
+
+/* Бегущий блик по линии графика */
+@keyframes dashRun {
+  to { stroke-dashoffset: -2000; }
+}
+.chart-line-glow {
+  stroke-dasharray: 40 160;
+  animation: dashRun 6s linear infinite;
+  pointer-events: none;
+}
+
+/* Пульсация точек графика */
+@keyframes pointPulse {
+  0%, 100% { r: 4; opacity: 1; }
+  50%      { r: 5.5; opacity: 0.85; }
+}
+.chart-point {
+  animation: pointPulse 3s ease-in-out infinite;
+}
+
+/* Пульсирующее кольцо вокруг точки (внешнее) */
+@keyframes ringPulse {
+  0%   { r: 6; opacity: 0.4; }
+  100% { r: 16; opacity: 0; }
+}
+.chart-point-ring {
+  animation: ringPulse 2.5s ease-out infinite;
+}
+
+/* Дыхание area под линией */
+@keyframes areaBreathe {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.9; }
+}
+.chart-area-live {
+  animation: areaBreathe 5s ease-in-out infinite;
+}
+
+/* Дыхание столбцов (едва заметное) */
+@keyframes barBreathe {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(1.025); }
+}
+.chart-bar-live {
+  animation: barBreathe 4s ease-in-out infinite;
+  transform-origin: bottom;
+  transform-box: fill-box;
+}
+
+/* Мягкий shimmer по верху столбца */
+@keyframes barShimmer {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.8; }
+}
+.bar-shimmer {
+  animation: barShimmer 2.5s ease-in-out infinite;
+}
+
+/* Donut — свечение сегментов по кругу */
+@keyframes donutGlow {
+  0%, 100% { stroke-width: 24; filter: drop-shadow(0 0 0 transparent); }
+  50%      { stroke-width: 26; filter: drop-shadow(0 0 6px currentColor); }
+}
+.donut-segment-live {
+  animation: donutGlow 4s ease-in-out infinite;
+}
+
+/* Задержки для волнового эффекта */
+.delay-anim-1 { animation-delay: 0s; }
+.delay-anim-2 { animation-delay: 0.4s; }
+.delay-anim-3 { animation-delay: 0.8s; }
+.delay-anim-4 { animation-delay: 1.2s; }
+.delay-anim-5 { animation-delay: 1.6s; }
+.delay-anim-6 { animation-delay: 2.0s; }
+.delay-anim-7 { animation-delay: 2.4s; }
+/* ═══════════════════════════════════════════════════════
+   ПРОРИСОВКА ГРАФИКОВ — эффект «данные поступают»
+   ═══════════════════════════════════════════════════════ */
+
+/* Линия прорисовывается слева направо */
+@keyframes drawLineFull {
+  from { stroke-dashoffset: 3000; }
+  to   { stroke-dashoffset: 0; }
+}
+.chart-draw {
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  animation: drawLineFull 2.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Area заливается слева направо через clip-path */
+@keyframes areaClip {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.chart-area-clip {
+  clip-path: inset(0 100% 0 0);
+  animation: areaClip 2.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: 0.15s;
+}
+
+/* Точка «приходит» — маленькая, появляется с масштабом */
+@keyframes dotArrive {
+  from { r: 0; opacity: 0; }
+  to   { r: 4; opacity: 1; }
+}
+.chart-dot-arrive {
+  animation: dotArrive 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Кольцо, которое «выстреливает» от точки при появлении */
+@keyframes ringBurst {
+  0%   { r: 4; opacity: 0.9; stroke-width: 3; }
+  100% { r: 22; opacity: 0; stroke-width: 0.5; }
+}
+.chart-ring-burst {
+  animation: ringBurst 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Бегущая точка-курсор (движется по пути) */
+@keyframes cursorPulse {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
+}
+.chart-cursor {
+  animation: cursorPulse 0.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* Столбец растёт строго по одному */
+@keyframes barGrowUp {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+.bar-grow {
+  transform-origin: bottom;
+  transform-box: fill-box;
+  animation: barGrowUp 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  transform: scaleY(0);
+}
+
+/* Donut-сегмент заполняется от 0 к своей длине */
+@keyframes donutFill {
+  from { stroke-dashoffset: 1000; }
+}
+.donut-fill {
+  animation: donutFill 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Задержки — единые для синхронизации */
+.d-0  { animation-delay: 0s; }
+.d-1  { animation-delay: 0.2s; }
+.d-2  { animation-delay: 0.4s; }
+.d-3  { animation-delay: 0.6s; }
+.d-4  { animation-delay: 0.8s; }
+.d-5  { animation-delay: 1.0s; }
+.d-6  { animation-delay: 1.2s; }
+.d-7  { animation-delay: 1.4s; }
+.d-8  { animation-delay: 1.6s; }
+.d-9  { animation-delay: 1.8s; }
+.d-10 { animation-delay: 2.0s; }
+/* ═══════════════════════════════════════════════════════
+   АНИМАЦИИ ПРИ СКРОЛЛЕ — блок «выстраивается» когда долистал
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── ОБЩИЕ КЛЮЧЕВЫЕ КАДРЫ ─── */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes drawWidth {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ─── 1. ТАБЛИЦЫ — строки выезжают слева по одной ─── */
+.table-anim tbody tr {
+  opacity: 0;
+  transform: translateX(-16px);
+}
+.table-anim.is-visible tbody tr {
+  animation: slideInLeft 0.5s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.table-anim.is-visible tbody tr:nth-child(1)  { animation-delay: 0.10s; }
+.table-anim.is-visible tbody tr:nth-child(2)  { animation-delay: 0.18s; }
+.table-anim.is-visible tbody tr:nth-child(3)  { animation-delay: 0.26s; }
+.table-anim.is-visible tbody tr:nth-child(4)  { animation-delay: 0.34s; }
+.table-anim.is-visible tbody tr:nth-child(5)  { animation-delay: 0.42s; }
+.table-anim.is-visible tbody tr:nth-child(6)  { animation-delay: 0.50s; }
+.table-anim.is-visible tbody tr:nth-child(7)  { animation-delay: 0.58s; }
+.table-anim.is-visible tbody tr:nth-child(8)  { animation-delay: 0.66s; }
+.table-anim.is-visible tbody tr:nth-child(9)  { animation-delay: 0.74s; }
+.table-anim.is-visible tbody tr:nth-child(10) { animation-delay: 0.82s; }
+
+/* Заголовок таблицы — линия снизу растёт */
+.table-anim thead {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.table-anim.is-visible thead {
+  animation: drawWidth 0.6s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+
+/* ─── 2. ПИРАМИДА — уровни снизу вверх ─── */
+.pyramid-anim > * {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.pyramid-anim.is-visible > * {
+  animation: slideInUp 0.55s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+/* Снизу вверх: последний появляется первым, верхний — последним */
+.pyramid-anim.is-visible > *:last-child   { animation-delay: 0.05s; }
+.pyramid-anim.is-visible > *:nth-last-child(2) { animation-delay: 0.20s; }
+.pyramid-anim.is-visible > *:nth-last-child(3) { animation-delay: 0.35s; }
+.pyramid-anim.is-visible > *:nth-last-child(4) { animation-delay: 0.50s; }
+.pyramid-anim.is-visible > *:nth-last-child(5) { animation-delay: 0.65s; }
+.pyramid-anim.is-visible > *:nth-last-child(6) { animation-delay: 0.80s; }
+
+/* ─── 3. КВАДРАНТЫ (SWOT, Томас-Килманн, Эйзенхауэр) ─── */
+.quadrant-anim > * {
+  opacity: 0;
+  transform: scale(0.94);
+}
+.quadrant-anim.is-visible > * {
+  animation: scaleIn 0.5s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.quadrant-anim.is-visible > *:nth-child(1) { animation-delay: 0.10s; }
+.quadrant-anim.is-visible > *:nth-child(2) { animation-delay: 0.28s; }
+.quadrant-anim.is-visible > *:nth-child(3) { animation-delay: 0.46s; }
+.quadrant-anim.is-visible > *:nth-child(4) { animation-delay: 0.64s; }
+.quadrant-anim.is-visible > *:nth-child(5) { animation-delay: 0.82s; }
+.quadrant-anim.is-visible > *:nth-child(6) { animation-delay: 1.00s; }
+
+/* ─── 4. ТАЙМЛАЙН горизонтальный ─── */
+.timeline-anim > * {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.timeline-anim.is-visible > * {
+  animation: slideInLeft 0.55s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.timeline-anim.is-visible > *:nth-child(1)  { animation-delay: 0.05s; }
+.timeline-anim.is-visible > *:nth-child(2)  { animation-delay: 0.13s; }
+.timeline-anim.is-visible > *:nth-child(3)  { animation-delay: 0.21s; }
+.timeline-anim.is-visible > *:nth-child(4)  { animation-delay: 0.29s; }
+.timeline-anim.is-visible > *:nth-child(5)  { animation-delay: 0.37s; }
+.timeline-anim.is-visible > *:nth-child(6)  { animation-delay: 0.45s; }
+.timeline-anim.is-visible > *:nth-child(7)  { animation-delay: 0.53s; }
+.timeline-anim.is-visible > *:nth-child(8)  { animation-delay: 0.61s; }
+.timeline-anim.is-visible > *:nth-child(9)  { animation-delay: 0.69s; }
+.timeline-anim.is-visible > *:nth-child(10) { animation-delay: 0.77s; }
+.timeline-anim.is-visible > *:nth-child(11) { animation-delay: 0.85s; }
+.timeline-anim.is-visible > *:nth-child(12) { animation-delay: 0.93s; }
+
+/* ─── 5. ВОРОНКА — сверху вниз, сужение ─── */
+.funnel-anim > * {
+  opacity: 0;
+  transform: scaleX(0.8) translateY(-10px);
+}
+.funnel-anim.is-visible > * {
+  animation: scaleIn 0.55s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.funnel-anim.is-visible > *:nth-child(1) { animation-delay: 0.10s; }
+.funnel-anim.is-visible > *:nth-child(2) { animation-delay: 0.25s; }
+.funnel-anim.is-visible > *:nth-child(3) { animation-delay: 0.40s; }
+.funnel-anim.is-visible > *:nth-child(4) { animation-delay: 0.55s; }
+.funnel-anim.is-visible > *:nth-child(5) { animation-delay: 0.70s; }
+.funnel-anim.is-visible > *:nth-child(6) { animation-delay: 0.85s; }
+
+/* ─── 6. КАРТОЧКИ-СПИСКИ (mini-card, theorist, style-card) ─── */
+.cards-anim > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.cards-anim.is-visible > * {
+  animation: slideInUp 0.5s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.cards-anim.is-visible > *:nth-child(1)  { animation-delay: 0.05s; }
+.cards-anim.is-visible > *:nth-child(2)  { animation-delay: 0.13s; }
+.cards-anim.is-visible > *:nth-child(3)  { animation-delay: 0.21s; }
+.cards-anim.is-visible > *:nth-child(4)  { animation-delay: 0.29s; }
+.cards-anim.is-visible > *:nth-child(5)  { animation-delay: 0.37s; }
+.cards-anim.is-visible > *:nth-child(6)  { animation-delay: 0.45s; }
+.cards-anim.is-visible > *:nth-child(7)  { animation-delay: 0.53s; }
+.cards-anim.is-visible > *:nth-child(8)  { animation-delay: 0.61s; }
+.cards-anim.is-visible > *:nth-child(9)  { animation-delay: 0.69s; }
+.cards-anim.is-visible > *:nth-child(10) { animation-delay: 0.77s; }
+.cards-anim.is-visible > *:nth-child(11) { animation-delay: 0.85s; }
+.cards-anim.is-visible > *:nth-child(12) { animation-delay: 0.93s; }
+
+/* ─── 7. ЦИКЛ — узлы по очереди ─── */
+.cycle-anim > * {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.cycle-anim.is-visible > * {
+  animation: scaleIn 0.45s cubic-bezier(0.19,1,0.22,1) forwards;
+}
+.cycle-anim.is-visible > *:nth-child(1) { animation-delay: 0.05s; }
+.cycle-anim.is-visible > *:nth-child(2) { animation-delay: 0.20s; }
+.cycle-anim.is-visible > *:nth-child(3) { animation-delay: 0.35s; }
+.cycle-anim.is-visible > *:nth-child(4) { animation-delay: 0.50s; }
+/* ═══════════════════════════════════════════════════════
+   УСИЛЕННЫЕ анимации при скролле (перекрывают предыдущие)
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── ТАБЛИЦЫ ─── */
+@keyframes tableRowIn {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+[data-anim="table"] thead,
+[data-anim="table"] .table thead {
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+}
+[data-anim="table"].is-visible thead,
+[data-anim="table"].is-visible .table thead {
+  animation: drawWidth 0.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+[data-anim="table"] tbody tr,
+[data-anim="table"] .table tbody tr {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+[data-anim="table"].is-visible tbody tr,
+[data-anim="table"].is-visible .table tbody tr {
+  animation: tableRowIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="table"].is-visible tbody tr:nth-child(1)  { animation-delay: 0.15s; }
+[data-anim="table"].is-visible tbody tr:nth-child(2)  { animation-delay: 0.28s; }
+[data-anim="table"].is-visible tbody tr:nth-child(3)  { animation-delay: 0.41s; }
+[data-anim="table"].is-visible tbody tr:nth-child(4)  { animation-delay: 0.54s; }
+[data-anim="table"].is-visible tbody tr:nth-child(5)  { animation-delay: 0.67s; }
+[data-anim="table"].is-visible tbody tr:nth-child(6)  { animation-delay: 0.80s; }
+[data-anim="table"].is-visible tbody tr:nth-child(7)  { animation-delay: 0.93s; }
+[data-anim="table"].is-visible tbody tr:nth-child(8)  { animation-delay: 1.06s; }
+[data-anim="table"].is-visible tbody tr:nth-child(9)  { animation-delay: 1.19s; }
+[data-anim="table"].is-visible tbody tr:nth-child(10) { animation-delay: 1.32s; }
+
+/* ─── ПИРАМИДЫ (Маслоу, уровни) ─── */
+@keyframes pyramidIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+[data-anim="pyramid"] > * {
+  opacity: 0;
+  transform: translateY(40px) scale(0.92);
+}
+[data-anim="pyramid"].is-visible > * {
+  animation: pyramidIn 0.75s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="pyramid"].is-visible > *:last-child        { animation-delay: 0.05s; }
+[data-anim="pyramid"].is-visible > *:nth-last-child(2) { animation-delay: 0.25s; }
+[data-anim="pyramid"].is-visible > *:nth-last-child(3) { animation-delay: 0.45s; }
+[data-anim="pyramid"].is-visible > *:nth-last-child(4) { animation-delay: 0.65s; }
+[data-anim="pyramid"].is-visible > *:nth-last-child(5) { animation-delay: 0.85s; }
+[data-anim="pyramid"].is-visible > *:nth-last-child(6) { animation-delay: 1.05s; }
+
+/* ─── КАРТОЧКИ (grid с несколькими элементами) ─── */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+[data-anim="cards"] > * {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+}
+[data-anim="cards"].is-visible > * {
+  animation: cardIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="cards"].is-visible > *:nth-child(1)  { animation-delay: 0.10s; }
+[data-anim="cards"].is-visible > *:nth-child(2)  { animation-delay: 0.22s; }
+[data-anim="cards"].is-visible > *:nth-child(3)  { animation-delay: 0.34s; }
+[data-anim="cards"].is-visible > *:nth-child(4)  { animation-delay: 0.46s; }
+[data-anim="cards"].is-visible > *:nth-child(5)  { animation-delay: 0.58s; }
+[data-anim="cards"].is-visible > *:nth-child(6)  { animation-delay: 0.70s; }
+[data-anim="cards"].is-visible > *:nth-child(7)  { animation-delay: 0.82s; }
+[data-anim="cards"].is-visible > *:nth-child(8)  { animation-delay: 0.94s; }
+[data-anim="cards"].is-visible > *:nth-child(9)  { animation-delay: 1.06s; }
+[data-anim="cards"].is-visible > *:nth-child(10) { animation-delay: 1.18s; }
+[data-anim="cards"].is-visible > *:nth-child(11) { animation-delay: 1.30s; }
+[data-anim="cards"].is-visible > *:nth-child(12) { animation-delay: 1.42s; }
+
+/* ─── ТАЙМЛАЙН ─── */
+@keyframes timelineIn {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+[data-anim="timeline"] > * {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+[data-anim="timeline"].is-visible > * {
+  animation: timelineIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="timeline"].is-visible > *:nth-child(1)  { animation-delay: 0.10s; }
+[data-anim="timeline"].is-visible > *:nth-child(2)  { animation-delay: 0.20s; }
+[data-anim="timeline"].is-visible > *:nth-child(3)  { animation-delay: 0.30s; }
+[data-anim="timeline"].is-visible > *:nth-child(4)  { animation-delay: 0.40s; }
+[data-anim="timeline"].is-visible > *:nth-child(5)  { animation-delay: 0.50s; }
+[data-anim="timeline"].is-visible > *:nth-child(6)  { animation-delay: 0.60s; }
+[data-anim="timeline"].is-visible > *:nth-child(7)  { animation-delay: 0.70s; }
+[data-anim="timeline"].is-visible > *:nth-child(8)  { animation-delay: 0.80s; }
+[data-anim="timeline"].is-visible > *:nth-child(9)  { animation-delay: 0.90s; }
+[data-anim="timeline"].is-visible > *:nth-child(10) { animation-delay: 1.00s; }
+[data-anim="timeline"].is-visible > *:nth-child(11) { animation-delay: 1.10s; }
+[data-anim="timeline"].is-visible > *:nth-child(12) { animation-delay: 1.20s; }
+
+/* ─── КВАДРАНТЫ (SWOT, Килманн, Эйзенхауэр) ─── */
+@keyframes quadIn {
+  from { opacity: 0; transform: scale(0.85) rotate(-2deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
+}
+[data-anim="quad"] > * {
+  opacity: 0;
+  transform: scale(0.85) rotate(-2deg);
+}
+[data-anim="quad"].is-visible > * {
+  animation: quadIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="quad"].is-visible > *:nth-child(1) { animation-delay: 0.10s; }
+[data-anim="quad"].is-visible > *:nth-child(2) { animation-delay: 0.30s; }
+[data-anim="quad"].is-visible > *:nth-child(3) { animation-delay: 0.50s; }
+[data-anim="quad"].is-visible > *:nth-child(4) { animation-delay: 0.70s; }
+[data-anim="quad"].is-visible > *:nth-child(5) { animation-delay: 0.90s; }
+[data-anim="quad"].is-visible > *:nth-child(6) { animation-delay: 1.10s; }
+
+/* ─── Уровни (для .pyramid, .maslow-level внутри) ─── */
+[data-anim="levels"] .pyramid-level,
+[data-anim="levels"] .maslow-level,
+[data-anim="levels"] .level-card {
+  opacity: 0;
+  transform: scaleX(0.85) translateY(20px);
+}
+[data-anim="levels"].is-visible .pyramid-level,
+[data-anim="levels"].is-visible .maslow-level,
+[data-anim="levels"].is-visible .level-card {
+  animation: pyramidIn 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+[data-anim="levels"].is-visible > *:nth-child(1) .pyramid-level,
+[data-anim="levels"].is-visible > *:nth-child(1) .maslow-level,
+[data-anim="levels"].is-visible > *:nth-child(1) .level-card { animation-delay: 0.05s; }
+[data-anim="levels"].is-visible > *:nth-child(2) .pyramid-level,
+[data-anim="levels"].is-visible > *:nth-child(2) .maslow-level,
+[data-anim="levels"].is-visible > *:nth-child(2) .level-card { animation-delay: 0.25s; }
+[data-anim="levels"].is-visible > *:nth-child(3) .pyramid-level,
+[data-anim="levels"].is-visible > *:nth-child(3) .maslow-level,
+[data-anim="levels"].is-visible > *:nth-child(3) .level-card { animation-delay: 0.45s; }
+[data-anim="levels"].is-visible > *:nth-child(4) .pyramid-level,
+[data-anim="levels"].is-visible > *:nth-child(4) .maslow-level,
+[data-anim="levels"].is-visible > *:nth-child(4) .level-card { animation-delay: 0.65s; }
+[data-anim="levels"].is-visible > *:nth-child(5) .pyramid-level,
+[data-anim="levels"].is-visible > *:nth-child(5) .maslow-level,
+[data-anim="levels"].is-visible > *:nth-child(5) .level-card { animation-delay: 0.85s; }
+/* ═══════════════════════════════════════════════════════
+   РАСШИРЕННЫЕ АНИМАЦИИ (параллакс, tilt, magnetic, blur)
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── 7. Blur-to-sharp для reveal ─── */
+.reveal {
+  filter: blur(6px);
+  transition: opacity 0.9s cubic-bezier(0.19,1,0.22,1),
+              transform 0.9s cubic-bezier(0.19,1,0.22,1),
+              filter 0.9s cubic-bezier(0.19,1,0.22,1);
+}
+.reveal.visible {
+  filter: blur(0);
+}
+
+/* ─── 3. 3D Tilt ─── */
+.tilt-auto {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.19,1,0.22,1),
+              box-shadow 0.35s ease;
+  will-change: transform;
+  position: relative;
+}
+.tilt-auto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    400px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(232, 167, 141, 0.08),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.tilt-auto:hover::after {
+  opacity: 1;
+}
+
+/* ─── 4. Магнитные кнопки ─── */
+.btn-magnetic {
+  transition: transform 0.25s cubic-bezier(0.19,1,0.22,1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+/* ─── 5. Буквы заголовка ─── */
+.split-words {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0 0.3em;
+}
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.15;
+  padding-bottom: 0.08em;
+}
+.split-word > span {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.19,1,0.22,1),
+              opacity 0.6s ease;
+}
+.split-words.is-visible .split-word > span {
+  transform: translateY(0);
+  opacity: 1;
+}
+.split-words.is-visible .split-word:nth-child(1) > span { transition-delay: 0.00s; }
+.split-words.is-visible .split-word:nth-child(2) > span { transition-delay: 0.05s; }
+.split-words.is-visible .split-word:nth-child(3) > span { transition-delay: 0.10s; }
+.split-words.is-visible .split-word:nth-child(4) > span { transition-delay: 0.15s; }
+.split-words.is-visible .split-word:nth-child(5) > span { transition-delay: 0.20s; }
+.split-words.is-visible .split-word:nth-child(6) > span { transition-delay: 0.25s; }
+.split-words.is-visible .split-word:nth-child(7) > span { transition-delay: 0.30s; }
+.split-words.is-visible .split-word:nth-child(8) > span { transition-delay: 0.35s; }
+.split-words.is-visible .split-word:nth-child(9) > span { transition-delay: 0.40s; }
+.split-words.is-visible .split-word:nth-child(10) > span { transition-delay: 0.45s; }
+.split-words.is-visible .split-word:nth-child(11) > span { transition-delay: 0.50s; }
+.split-words.is-visible .split-word:nth-child(12) > span { transition-delay: 0.55s; }
+
+/* ─── 6. Прогресс секции (тонкий) ─── */
+.section-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(232, 167, 141, 0.6);
+}
+
+/* ─── 1. Параллакс: базовое ─── */
+.parallax-inner {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ─── 2. Sticky-секция ─── */
+.sticky-wrap {
+  position: relative;
+}
+.sticky-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Плавное появление активного уровня в sticky */
+.sticky-step {
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.19,1,0.22,1), filter 0.5s ease;
+  opacity: 0.25;
+  filter: blur(2px);
+  transform: scale(0.96);
+}
+.sticky-step.active {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+/* ═══════════════════════════════════════════════════════
+   СКРОЛЛ: сжатие сайдбара + плавные эффекты
+   ═══════════════════════════════════════════════════════ */
+
+/* Сайдбар: brand-секция сжимается при скролле */
+.sidebar-brand {
+  transition: padding 0.35s cubic-bezier(0.19,1,0.22,1);
+}
+.sidebar.scrolled .sidebar-brand {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+.sidebar-logo {
+  transition: width 0.35s ease, height 0.35s ease, transform 0.35s ease;
+}
+.sidebar.scrolled .sidebar-logo {
+  width: 28px;
+  height: 28px;
+  transform: scale(0.92);
+}
+
+/* Сайдбар: небольшая тень/свечение при скролле */
+.sidebar {
+  transition: box-shadow 0.4s ease;
+}
+.sidebar.scrolled {
+  box-shadow: 4px 0 24px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Lenis совместимость ─── */
+html.lenis {
+  height: auto;
+}
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── 3-слойное появление для .card (опционально, наведи для просмотра) ─── */
+.layered-card {
+  --shadow-base: inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px -8px rgba(0,0,0,0.5);
+  --shadow-hover: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 40px -12px rgba(232,167,141,0.2);
+  transition: box-shadow 0.4s ease;
+}
+
+/* Микро-эффект: тонкая полоса-«глубина» у всех карточек */
+.card {
+  position: relative;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232, 167, 141, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  border-radius: 999px;
+}
+.card:hover::after {
+  opacity: 1;
+}
+/* ═══════════════════════════════════════════════════════
+   ДИЗАЙН: сетка, градиенты, скроллбар
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── 13. Тонкая сетка на фоне ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(232, 167, 141, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 167, 141, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 40%, transparent 80%);
+}
+
+/* Контент поверх сетки */
+body > * {
+  position: relative;
+  z-index: 1;
+}
+.sidebar, .page-progress {
+  z-index: 50 !important;
+}
+
+/* ─── 16. Градиентные пятна по страницам (data-page на body) ─── */
+.page-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  top: -20vh;
+  left: 30vw;
+  width: 80vw;
+  height: 80vh;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.08;
+  transition: opacity 1.2s ease, background 1.2s ease;
+}
+
+body[data-page="home"] .page-glow {
+  background: radial-gradient(circle, #e8a78d 0%, transparent 70%);
+}
+body[data-page="basics"] .page-glow {
+  background: radial-gradient(circle, #d99578 0%, transparent 70%);
+}
+body[data-page="history"] .page-glow {
+  background: radial-gradient(circle, #d4a544 0%, transparent 70%);
+}
+body[data-page="functions"] .page-glow {
+  background: radial-gradient(circle, #e8a78d 0%, transparent 70%);
+}
+body[data-page="structures"] .page-glow {
+  background: radial-gradient(circle, #8b9bb4 0%, transparent 70%);
+}
+body[data-page="leadership"] .page-glow {
+  background: radial-gradient(circle, #c87a8e 0%, transparent 70%);
+}
+body[data-page="personnel"] .page-glow {
+  background: radial-gradient(circle, #7a9d8f 0%, transparent 70%);
+}
+body[data-page="motivation"] .page-glow {
+  background: radial-gradient(circle, #a87ac8 0%, transparent 70%);
+}
+body[data-page="communications"] .page-glow {
+  background: radial-gradient(circle, #7aa8c8 0%, transparent 70%);
+}
+body[data-page="conflicts"] .page-glow {
+  background: radial-gradient(circle, #c88a7a 0%, transparent 70%);
+}
+body[data-page="decisions"] .page-glow {
+  background: radial-gradient(circle, #a89a7a 0%, transparent 70%);
+}
+body[data-page="strategy"] .page-glow {
+  background: radial-gradient(circle, #7a8ac8 0%, transparent 70%);
+}
+body[data-page="projects"] .page-glow {
+  background: radial-gradient(circle, #7ac8a8 0%, transparent 70%);
+}
+body[data-page="control"] .page-glow {
+  background: radial-gradient(circle, #c8a87a 0%, transparent 70%);
+}
+body[data-page="modern"] .page-glow {
+  background: radial-gradient(circle, #c87ac8 0%, transparent 70%);
+}
+body[data-page="glossary"] .page-glow {
+  background: radial-gradient(circle, #a8a87a 0%, transparent 70%);
+}
+body[data-page="quiz"] .page-glow {
+  background: radial-gradient(circle, #c87a7a 0%, transparent 70%);
+}
+
+/* ─── 18. Кастомный скроллбар ─── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 6px;
+  border: 2px solid var(--bg-2);
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) var(--bg-2);
+}
+
+/* ─── 20. Хлебные крошки ─── */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.breadcrumbs a {
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.breadcrumbs a:hover {
+  color: var(--accent);
+}
+.breadcrumbs .sep {
+  opacity: 0.4;
+}
+.breadcrumbs .current {
+  color: var(--ink-2);
+}
+/* ═══════════════════════════════════════════════════════
+   ИКОНКИ в сайдбаре — выравнивание
+   ═══════════════════════════════════════════════════════ */
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.sidebar-item svg {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-item:hover svg {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.sidebar-item.active svg {
+  color: var(--accent);
+  opacity: 1;
+}
+/* ═══════════════════════════════════════════════════════
+   9. ТИПОГРАФИКА: Playfair Display + отступы + буквица
+   ═══════════════════════════════════════════════════════ */
+
+/* Заголовки — Playfair Display */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.15 !important;
+}
+
+/* Оставляем Inter для интерфейса — кнопки, метки, меню */
+.btn, .badge, .eyebrow, .nav-link, .sidebar-item, .sidebar-group-label,
+.mono, .stat-label, .mini-card-num, .breadcrumbs, .search-input {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Буквица в определении */
+.dropcap:first-letter,
+.card-accent > p:first-of-type::first-letter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.6rem;
+  font-weight: 600;
+  float: left;
+  line-height: 0.9;
+  margin: 0.15rem 0.6rem 0 0;
+  color: var(--accent);
+}
+
+/* Выравнивание отступов через единую систему */
+.section-gap { margin-bottom: 3rem; }
+.section-gap-lg { margin-bottom: 4rem; }
+
+/* Мягче заголовки внутри .card */
+.card h2, .card h3 {
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+/* Крупный заголовок страницы — Playfair + эффектный размер */
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   12. PAGE TRANSITION — плавная смена страниц
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.main-with-sidebar {
+  animation: pageFadeIn 0.45s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Затемнение старой страницы при клике на ссылку (через .page-leaving) */
+.page-leaving {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   14. LOADING SKELETON — заглушки пока грузится
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-3) 0%,
+    var(--card-2) 50%,
+    var(--bg-3) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 6px;
+}
+
+.skeleton-title {
+  height: 2.5rem;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+.skeleton-text {
+  height: 1rem;
+  width: 100%;
+  margin-bottom: 0.65rem;
+}
+.skeleton-text.short { width: 70%; }
+.skeleton-card {
+  height: 8rem;
+  width: 100%;
+  border-radius: 12px;
+}
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+/* ═══════════════════════════════════════════════════════
+   ЕДИНАЯ СЕТКА 8px — выравнивание всех отступов
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── СЕКЦИИ: единый отступ между блоками ─── */
+section,
+.section {
+  margin-bottom: 80px;
+}
+
+/* Убираем двойной отступ у последней секции перед навигацией */
+section:last-of-type {
+  margin-bottom: 48px;
+}
+
+/* Секции внутри карточек и узких блоков — меньше отступ */
+.card section {
+  margin-bottom: 24px;
+}
+
+/* ─── ГЛАВНЫЙ КОНТЕЙНЕР ─── */
+.main-with-sidebar > div {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+/* ─── ЗАГОЛОВКИ ─── */
+h1 {
+  margin-bottom: 24px;
+}
+h2 {
+  margin-bottom: 20px;
+}
+h3 {
+  margin-bottom: 16px;
+}
+h4 {
+  margin-bottom: 12px;
+}
+
+/* Заголовки внутри карточек — компактнее */
+.card h2,
+.card h3 {
+  margin-bottom: 16px;
+}
+
+/* ─── ПАРАГРАФЫ ─── */
+p {
+  margin-bottom: 16px;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── КАРТОЧКИ: единый padding ─── */
+.card {
+  padding: 32px;
+}
+.mini-card {
+  padding: 24px;
+}
+.stat-card {
+  padding: 24px;
+}
+.theorist {
+  padding: 24px;
+}
+.style-card {
+  padding: 32px;
+}
+
+/* Адаптив для карточек на мобилке */
+@media (max-width: 768px) {
+  .card { padding: 24px; }
+  .style-card { padding: 24px; }
+}
+
+/* ─── СЕТКИ: единый gap ─── */
+.grid {
+  gap: 24px;
+}
+
+/* Маленькие сетки — 16px */
+.grid[class*="gap-3"] {
+  gap: 16px;
+}
+.grid[class*="gap-4"] {
+  gap: 24px;
+}
+.grid[class*="gap-5"] {
+  gap: 32px;
+}
+.grid[class*="gap-6"] {
+  gap: 32px;
+}
+
+/* ─── СПИСКИ ─── */
+ul li + li,
+ol li + li {
+  margin-top: 8px;
+}
+
+/* ─── CARD-ACCENT (определение) ─── */
+.card-accent {
+  padding: 40px;
+}
+@media (max-width: 768px) {
+  .card-accent { padding: 24px; }
+}
+
+/* ─── BADGE / МЕТКИ ─── */
+.badge {
+  margin-bottom: 16px;
+}
+
+/* ─── БЛОКИ С СЕТКОЙ СЕКЦИИ ─── */
+/* Заголовок секции + описание — единый отступ */
+section > div:first-child {
+  margin-bottom: 32px;
+}
+
+/* Если внутри section сразу сетка — отступ между intro и сеткой */
+section > p + div,
+section > h2 + div,
+section > h2 + p + div {
+  margin-top: 24px;
+}
+
+/* ─── СТАТИСТИКА ─── */
+.stat {
+  padding: 24px;
+}
+.stat-num {
+  margin-bottom: 8px;
+}
+
+/* ─── НАВИГАЦИЯ ВНИЗУ СТРАНИЦЫ ─── */
+.main-with-sidebar .flex.justify-between.items-center.pt-6 {
+  padding-top: 32px;
+  margin-top: 48px;
+}
+
+/* ─── HERO-БЛОКИ СТРАНИЦ ─── */
+/* Первая секция (с бейджем и H1) — больше воздуха внизу */
+.main-with-sidebar .mb-10 {
+  margin-bottom: 48px;
+}
+
+/* ─── СБРОС: переопределяем Tailwind mb-X на кратные 8 ─── */
+.mb-1  { margin-bottom: 8px; }
+.mb-2  { margin-bottom: 16px; }
+.mb-3  { margin-bottom: 16px; }
+.mb-4  { margin-bottom: 24px; }
+.mb-5  { margin-bottom: 24px; }
+.mb-6  { margin-bottom: 32px; }
+.mb-8  { margin-bottom: 48px; }
+.mb-10 { margin-bottom: 48px; }
+.mb-12 { margin-bottom: 80px; }
+
+.mt-1  { margin-top: 8px; }
+.mt-2  { margin-top: 16px; }
+.mt-3  { margin-top: 16px; }
+.mt-4  { margin-top: 24px; }
+.mt-5  { margin-top: 24px; }
+.mt-6  { margin-top: 32px; }
+
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 16px; }
+.gap-4 { gap: 24px; }
+.gap-5 { gap: 32px; }
+.gap-6 { gap: 32px; }
+
+/* ─── ВЫРАВНИВАНИЕ ВНУТРИ СЕКЦИЙ ─── */
+/* Отступ между заголовком секции и содержимым */
+h2 + .grid,
+h2 + .table-wrap,
+h2 + .modern-table,
+h2 + .timeline-h,
+h2 + .accordion-item {
+  margin-top: 32px;
+}
+
+h3 + p,
+h3 + ul {
+  margin-top: 16px;
+}
+
+/* ─── ВЫРАВНИВАНИЕ ВНУТРИ CARD ─── */
+/* Расстояние между заголовком карточки и содержимым */
+.card > h2 + *,
+.card > h3 + * {
+  margin-top: 16px;
+}
+
+/* ─── КОМПЕНСАЦИЯ ДЛЯ СЕКЦИЙ С СВОИМ PADDING ─── */
+/* Если у section есть bg или border — не добавляем margin, используем padding */
+section.bg-\[var\(--bg-2\)\],
+section.bg-\[var\(--bg-3\)\] {
+  padding-top: 64px;
+  padding-bottom: 64px;
+  margin-bottom: 0;
+}
+
+/* ─── ФИНАЛЬНЫЙ ФИКС: КНОПКИ ─── */
+.btn {
+  padding: 12px 24px;
+}
